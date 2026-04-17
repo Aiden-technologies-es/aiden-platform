@@ -115,13 +115,13 @@ body {
 
 /* ── Skeleton ── */
 @keyframes shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0%   { background-position: -800px 0; }
+  100% { background-position: 800px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, #F0F0F0 25%, #E8E8E8 50%, #F0F0F0 75%);
-  background-size: 800px 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
+  background: linear-gradient(90deg, #F0F0F0 0%, #F0F0F0 30%, #E4E4E4 50%, #F0F0F0 70%, #F0F0F0 100%);
+  background-size: 1600px 100%;
+  animation: shimmer 2.2s ease-in-out infinite;
   border-radius: 6px;
 }
 
