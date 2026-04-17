@@ -10,7 +10,7 @@ async function getMailboxes(clerkUserId: string) {
   const db = createSupabaseAdmin()
   const { data: c } = await db.from('customers').select('id').eq('clerk_user_id', clerkUserId).single()
   if (!c) return []
-  const { data } = await db.from('mailboxes').select('*, domains(domain)').eq('customer_id', c.id)
+  const { data } = await db.from('mailboxes').select('*').eq('customer_id', c.id)
   return data ?? []
 }
 
