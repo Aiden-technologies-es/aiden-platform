@@ -20,7 +20,6 @@ async function namecomFetch<T>(path: string, options?: RequestInit): Promise<T> 
   return data as T
 }
 
-// ── Domain search ──
 export async function searchDomain(domain: string) {
   return namecomFetch<{
     results: Array<{ domainName: string; purchasable: boolean; purchasePrice: number; renewalPrice: number }>
@@ -30,7 +29,6 @@ export async function searchDomain(domain: string) {
   })
 }
 
-// ── Domain availability check ──
 export async function checkAvailability(domainName: string) {
   return namecomFetch<{ results: Array<{ domainName: string; purchasable: boolean; purchasePrice: number }> }>(
     `/domains:checkAvailability`,
@@ -38,36 +36,54 @@ export async function checkAvailability(domainName: string) {
   )
 }
 
-// ── Purchase domain ──
-export async function purchaseDomain(domainName: string, years = 1) {
+export async function purchaseDomain(domainName: string, years = 1, contacts?: {
+  firstName: string; lastName: string; email: string; phone: string
+  address1: string; city: string; state: string; zip: string; country: string
+}) {
+  const defaultContact = {
+    firstName: 'Admin',
+    lastName:  'Aiden',
+    email:     process.env.NAMECOM_USERNAME ?? 'admin@aiden.es',
+    phone:     '+34.600000000',
+    address1:  'Calle Mayor 1',
+    city:      'Madrid',
+    state:     'Madrid',
+    zip:       '28001',
+    country:   'ES',
+  }
+  const contact = contacts ?? defaultContact
+
   return namecomFetch<{ domain: { domainName: string; expireDate: string } }>(
     `/domains`,
     {
       method: 'POST',
       body: JSON.stringify({
-        domain: { domainName },
-        purchasePrice: 0, // Name.com fills this
+        domain:          { domainName },
+        purchasePrice:   0,
         years,
+        contacts: {
+          registrant:    contact,
+          admin:         contact,
+          tech:          contact,
+          billing:       contact,
+        },
       }),
     }
   )
 }
 
-// ── Get domain info ──
 export async function getDomain(domainName: string) {
   return namecomFetch<{ domainName: string; expireDate: string; autorenewEnabled: boolean; nameservers: string[] }>(
     `/domains/${domainName}`
   )
 }
 
-// ── List domains ──
 export async function listDomains(page = 1) {
   return namecomFetch<{ domains: Array<{ domainName: string; expireDate: string; locked: boolean }> }>(
     `/domains?page=${page}`
   )
 }
 
-// ── Set nameservers ──
 export async function setNameservers(domainName: string, nameservers: string[]) {
   return namecomFetch<{ nameservers: string[] }>(
     `/domains/${domainName}:setNameservers`,
@@ -75,7 +91,6 @@ export async function setNameservers(domainName: string, nameservers: string[]) 
   )
 }
 
-// ── DNS records ──
 export async function getDnsRecords(domainName: string) {
   return namecomFetch<{ records: Array<{ id: number; domainName: string; host: string; type: string; answer: string; ttl: number }> }>(
     `/domains/${domainName}/records`
@@ -97,7 +112,6 @@ export async function deleteDnsRecord(domainName: string, recordId: number) {
   })
 }
 
-// ── Renew domain ──
 export async function renewDomain(domainName: string, years = 1) {
   return namecomFetch(`/domains/${domainName}:renew`, {
     method: 'POST',
