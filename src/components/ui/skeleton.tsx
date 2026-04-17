@@ -2,16 +2,7 @@
 
 // Base skeleton block
 export function Skeleton({ className = '' }: { className?: string }) {
-  return (
-    <div
-      className={`skeleton rounded-xl ${className}`}
-      style={{
-        background: 'linear-gradient(90deg, rgba(0,0,0,0.06) 25%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.06) 75%)',
-        backgroundSize: '200% 100%',
-        animation: 'shimmer 1.4s ease-in-out infinite',
-      }}
-    />
-  )
+  return <div className={`skeleton rounded-xl ${className}`} />
 }
 
 // Card skeleton

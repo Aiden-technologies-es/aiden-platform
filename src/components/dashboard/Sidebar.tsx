@@ -3,23 +3,22 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useUser, useClerk } from '@clerk/nextjs'
 import { cn, initials } from '@/lib/utils'
-import Image from 'next/image'
 
 const NAV = [
   {
     group: 'Principal',
     items: [
-      { href: '/dashboard',   label: 'Inicio',       icon: IconHome },
-      { href: '/dominios',    label: 'Dominios',     icon: IconDomains },
-      { href: '/correo',      label: 'Correo',       icon: IconMail },
-      { href: '/hosting',     label: 'Hosting',      icon: IconHosting },
+      { href: '/dashboard',   label: 'Inicio',      icon: IconHome },
+      { href: '/dominios',    label: 'Dominios',    icon: IconDomains },
+      { href: '/correo',      label: 'Correo',      icon: IconMail },
+      { href: '/hosting',     label: 'Hosting',     icon: IconHosting },
     ],
   },
   {
     group: 'Cuenta',
     items: [
-      { href: '/suscripcion', label: 'Facturación',  icon: IconBilling },
-      { href: '/soporte',     label: 'Soporte',      icon: IconSupport },
+      { href: '/suscripcion', label: 'Facturación', icon: IconBilling },
+      { href: '/soporte',     label: 'Soporte',     icon: IconSupport },
     ],
   },
 ]
@@ -33,13 +32,24 @@ export function Sidebar() {
     <aside className="w-[220px] flex flex-col h-screen bg-white border-r border-[#EBEBEB]">
       {/* Logo */}
       <div className="px-5 pt-5 pb-4 border-b border-[#F0F0F0]">
-        <div className="mb-4">
-          <Image
+        <div className="mb-4 h-7 flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/aiden-logo.png"
             alt="Aiden"
-            width={90}
-            height={28}
-            style={{ objectFit: 'contain', objectPosition: 'left' }}
+            className="h-6 w-auto object-contain object-left"
+            onError={(e) => {
+              // Fallback to text logo if image fails
+              const target = e.currentTarget
+              target.style.display = 'none'
+              const parent = target.parentElement
+              if (parent && !parent.querySelector('.logo-fallback')) {
+                const fallback = document.createElement('div')
+                fallback.className = 'logo-fallback flex items-center gap-2'
+                fallback.innerHTML = `<div style="width:28px;height:28px;border-radius:8px;background:#13967e;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" stroke="white" strokeWidth="1.8"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" stroke="white" strokeWidth="1.8"/></svg></div><span style="font-size:15px;font-weight:700;color:#1A1A1A;letter-spacing:-0.3px">aiden</span>`
+                parent.appendChild(fallback)
+              }
+            }}
           />
         </div>
 
@@ -111,57 +121,22 @@ export function Sidebar() {
   )
 }
 
-// ── SVG Icons ──────────────────────────────────────────────────
 interface IconProps { active?: boolean }
-
 function IconHome({ active }: IconProps) {
-  return (
-    <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active ? '#13967e' : '#888'} strokeWidth="1.8">
-      <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
+  return <svg className="w-[17px] h-[17px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active?'#13967e':'#888'} strokeWidth="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" strokeLinecap="round" strokeLinejoin="round"/></svg>
 }
-
 function IconDomains({ active }: IconProps) {
-  return (
-    <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active ? '#13967e' : '#888'} strokeWidth="1.8">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M12 2C8 6 8 18 12 22M12 2c4 4 4 16 0 20M2 12h20" strokeLinecap="round"/>
-    </svg>
-  )
+  return <svg className="w-[17px] h-[17px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active?'#13967e':'#888'} strokeWidth="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 2C8 6 8 18 12 22M12 2c4 4 4 16 0 20M2 12h20" strokeLinecap="round"/></svg>
 }
-
 function IconMail({ active }: IconProps) {
-  return (
-    <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active ? '#13967e' : '#888'} strokeWidth="1.8">
-      <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" strokeLinecap="round"/>
-    </svg>
-  )
+  return <svg className="w-[17px] h-[17px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active?'#13967e':'#888'} strokeWidth="1.8"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" strokeLinecap="round"/></svg>
 }
-
 function IconHosting({ active }: IconProps) {
-  return (
-    <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active ? '#13967e' : '#888'} strokeWidth="1.8">
-      <rect x="2" y="3" width="20" height="14" rx="2"/>
-      <path d="M8 21h8M12 17v4" strokeLinecap="round"/>
-    </svg>
-  )
+  return <svg className="w-[17px] h-[17px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active?'#13967e':'#888'} strokeWidth="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" strokeLinecap="round"/></svg>
 }
-
 function IconBilling({ active }: IconProps) {
-  return (
-    <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active ? '#13967e' : '#888'} strokeWidth="1.8">
-      <rect x="2" y="5" width="20" height="14" rx="2"/>
-      <path d="M2 10h20" strokeLinecap="round"/>
-      <path d="M6 15h4M16 15h2" strokeLinecap="round"/>
-    </svg>
-  )
+  return <svg className="w-[17px] h-[17px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active?'#13967e':'#888'} strokeWidth="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4M16 15h2" strokeLinecap="round"/></svg>
 }
-
 function IconSupport({ active }: IconProps) {
-  return (
-    <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active ? '#13967e' : '#888'} strokeWidth="1.8">
-      <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
+  return <svg className="w-[17px] h-[17px] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={active?'#13967e':'#888'} strokeWidth="1.8"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" strokeLinecap="round" strokeLinejoin="round"/></svg>
 }
