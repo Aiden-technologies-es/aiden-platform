@@ -5,15 +5,15 @@ import { useUser, useClerk } from '@clerk/nextjs'
 import { cn, initials } from '@/lib/utils'
 
 const NAV_PRINCIPAL = [
-  { href: '/dashboard',   label: 'Dashboard',    color: '#16A34A', bg: '#DCFCE7', icon: IconDashboard },
-  { href: '/dominios',    label: 'Dominios',     color: '#2563EB', bg: '#DBEAFE', icon: IconDomains },
-  { href: '/correo',      label: 'Correo',       color: '#DC2626', bg: '#FEE2E2', icon: IconMail },
-  { href: '/hosting',     label: 'Hosting',      color: '#D97706', bg: '#FEF3C7', icon: IconHosting },
-  { href: '/soporte',     label: 'Soporte',      color: '#7C3AED', bg: '#EDE9FE', icon: IconSupport },
+  { href: '/dashboard',              label: 'Dashboard',    color: '#16A34A', bg: '#DCFCE7', icon: IconDashboard, external: false },
+  { href: '/dominios',               label: 'Dominios',     color: '#2563EB', bg: '#DBEAFE', icon: IconDomains,   external: false },
+  { href: '/correo',                 label: 'Correo',       color: '#DC2626', bg: '#FEE2E2', icon: IconMail,      external: false },
+  { href: '/hosting',                label: 'Hosting',      color: '#D97706', bg: '#FEF3C7', icon: IconHosting,   external: false },
+  { href: 'https://support.aiden.es',label: 'Soporte',      color: '#7C3AED', bg: '#EDE9FE', icon: IconSupport,   external: true  },
 ]
 const NAV_RECURSOS = [
-  { href: '/suscripcion', label: 'Facturación',  color: '#0891B2', bg: '#CFFAFE', icon: IconBilling },
-  { href: '/settings',    label: 'Configuración',color: '#64748B', bg: '#F1F5F9', icon: IconSettings },
+  { href: '/suscripcion',            label: 'Facturación',  color: '#0891B2', bg: '#CFFAFE', icon: IconBilling,   external: false },
+  { href: '/settings',               label: 'Configuración',color: '#64748B', bg: '#F1F5F9', icon: IconSettings,  external: false },
 ]
 
 export function Sidebar() {
@@ -22,34 +22,41 @@ export function Sidebar() {
   const { signOut } = useClerk()
 
   const renderItem = (item: any) => {
-    const active = pathname === item.href || pathname.startsWith(item.href + '/')
+    const active = !item.external && (pathname === item.href || pathname.startsWith(item.href + '/'))
     const Icon = item.icon
-    return (
-      <Link key={item.href} href={item.href}>
-        <div className={cn(
-          'flex items-center gap-2.5 px-2 py-[5px] rounded-xl transition-all duration-100 mb-0.5',
-          active ? 'bg-white shadow-sm' : 'hover:bg-white/50'
-        )}>
-          <div className="w-[30px] h-[30px] rounded-[8px] flex items-center justify-center flex-shrink-0" style={{ background: item.bg }}>
-            <Icon color={item.color} />
-          </div>
-          <span className={cn('flex-1 text-[13px]', active ? 'font-semibold text-[#0F172A]' : 'font-medium text-[#374151]')}>
-            {item.label}
-          </span>
-          {item.badge > 0 && (
-            <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#3B82F6]/15 text-[#2563EB] text-[10px] font-bold flex items-center justify-center">
-              {item.badge}
-            </span>
-          )}
+    const inner = (
+      <div className={cn(
+        'flex items-center gap-2.5 px-2 py-[5px] rounded-xl transition-all duration-100 mb-0.5',
+        active ? 'bg-white shadow-sm' : 'hover:bg-white/60'
+      )}>
+        <div className="w-[30px] h-[30px] rounded-[8px] flex items-center justify-center flex-shrink-0" style={{ background: item.bg }}>
+          <Icon color={item.color} />
         </div>
-      </Link>
+        <span className={cn('flex-1 text-[13px]', active ? 'font-semibold text-[#0F172A]' : 'font-medium text-[#374151]')}>
+          {item.label}
+        </span>
+        {item.external && (
+          <svg className="w-3 h-3 text-[#CBD5E1] flex-shrink-0" fill="none" viewBox="0 0 24 24">
+            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
+        {item.badge > 0 && (
+          <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#3B82F6]/15 text-[#2563EB] text-[10px] font-bold flex items-center justify-center">
+            {item.badge}
+          </span>
+        )}
+      </div>
     )
+
+    return item.external
+      ? <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer">{inner}</a>
+      : <Link key={item.href} href={item.href}>{inner}</Link>
   }
 
   return (
-    <aside className="w-[215px] flex flex-col h-screen bg-[#E8EBF4] border-r border-[#D4D8E8]">
+    <aside className="w-[215px] flex flex-col h-screen sticky top-0 bg-[#E8EBF4] border-r border-[#D4D8E8]">
       {/* Logo */}
-      <div className="px-3.5 pt-4 pb-2.5">
+      <div className="px-3.5 pt-4 pb-2.5 flex-shrink-0">
         <div className="flex items-center justify-between mb-3">
           <img src="/aiden-logo.png" alt="Aiden" className="h-6 w-auto object-contain object-left"
             onError={e => {
@@ -64,22 +71,24 @@ export function Sidebar() {
         </div>
 
         {/* Company card */}
-        <button className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl bg-white shadow-sm hover:shadow-md transition-all text-left">
-          <div className="w-8 h-8 rounded-full bg-[#0F172A] flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 overflow-hidden">
-            {user?.imageUrl
-              ? <img src={user.imageUrl} alt="" className="w-full h-full object-cover"/>
-              : <span>{initials(user?.fullName ?? 'A')}</span>
-            }
+        <Link href="/settings">
+          <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl bg-white shadow-sm hover:shadow-md transition-all cursor-pointer">
+            <div className="w-8 h-8 rounded-full bg-[#0F172A] flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 overflow-hidden">
+              {user?.imageUrl
+                ? <img src={user.imageUrl} alt="" className="w-full h-full object-cover"/>
+                : <span>{initials(user?.fullName ?? 'A')}</span>
+              }
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] font-extrabold text-[#0F172A] truncate uppercase tracking-wide leading-none mb-0.5">{user?.fullName?.toUpperCase().slice(0,15) ?? 'AIDEN USER'}</div>
+              <div className="text-[10px] text-[#94A3B8]">Plan Free</div>
+            </div>
+            <svg className="w-3.5 h-3.5 text-[#CBD5E1] flex-shrink-0" fill="none" viewBox="0 0 24 24"><path d="M7 10l5-5 5 5M7 14l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-[11px] font-extrabold text-[#0F172A] truncate uppercase tracking-wide leading-none mb-0.5">{user?.fullName?.toUpperCase().slice(0,15) ?? 'AIDEN USER'}</div>
-            <div className="text-[10px] text-[#94A3B8]">Plan Free</div>
-          </div>
-          <svg className="w-3.5 h-3.5 text-[#CBD5E1] flex-shrink-0" fill="none" viewBox="0 0 24 24"><path d="M7 10l5-5 5 5M7 14l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        </button>
+        </Link>
       </div>
 
-      {/* Nav */}
+      {/* Nav — scrollable */}
       <nav className="flex-1 px-2.5 py-1 overflow-y-auto">
         <div className="mb-3">
           <div className="px-2 mb-1.5 text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">Principal</div>
@@ -92,7 +101,7 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom */}
-      <div className="px-2.5 pb-3.5 pt-1">
+      <div className="px-2.5 pb-3.5 pt-1 flex-shrink-0">
         <button onClick={() => signOut({ redirectUrl: '/login' })}
           className="w-full flex items-center gap-2.5 px-2 py-2 rounded-xl hover:bg-white/60 group transition-colors">
           <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm">
