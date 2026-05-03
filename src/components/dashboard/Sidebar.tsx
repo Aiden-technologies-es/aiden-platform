@@ -6,16 +6,16 @@ import { cn, initials } from '@/lib/utils'
 import { useState } from 'react'
 
 const NAV_TOP = [
-  { href: '/dashboard',   label: 'Inicio',       icon: IconHome },
-  { href: '/dominios',    label: 'Dominios',     icon: IconDomains },
-  { href: '/correo',      label: 'Correo',       icon: IconMail },
-  { href: '/hosting',     label: 'Hosting',      icon: IconHosting },
-  { href: '/soporte',     label: 'Soporte',      icon: IconSupport },
+  { href: '/dashboard',   label: 'Inicio',        icon: IconHome },
+  { href: '/dominios',    label: 'Dominios',      icon: IconDomains },
+  { href: '/correo',      label: 'Correo',        icon: IconMail },
+  { href: '/hosting',     label: 'Hosting',       icon: IconHosting },
+  { href: '/soporte',     label: 'Soporte',       icon: IconSupport },
 ]
 
 const NAV_BOTTOM = [
-  { href: '/suscripcion', label: 'Facturación',  icon: IconBilling },
-  { href: '/settings',    label: 'Configuración',icon: IconSettings, arrow: true },
+  { href: '/suscripcion', label: 'Facturación',   icon: IconBilling },
+  { href: '/settings',    label: 'Configuración', icon: IconSettings, arrow: true },
 ]
 
 export function Sidebar() {
@@ -25,29 +25,29 @@ export function Sidebar() {
   const [search, setSearch] = useState('')
 
   return (
-    <aside className="w-[240px] flex flex-col h-screen bg-[#0A0A0A] border-r border-white/[0.06]">
+    <aside className="w-[240px] flex flex-col h-screen bg-white border-r border-[#EAEAEA]">
 
       {/* Account switcher */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06]">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#EAEAEA]">
         <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
           {user?.imageUrl
             ? <img src={user.imageUrl} alt="" className="w-full h-full object-cover" />
             : <span className="text-[9px] font-bold text-white">{initials(user?.fullName)}</span>
           }
         </div>
-        <span className="text-[13px] font-medium text-white/90 flex-1 truncate">{user?.fullName ?? 'Usuario'}</span>
-        <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-md border border-white/10 bg-white/5">
-          <span className="text-[10px] text-white/50 font-medium">Free</span>
+        <span className="text-[13px] font-medium text-[#111] flex-1 truncate">{user?.fullName ?? 'Usuario'}</span>
+        <div className="flex items-center px-1.5 py-0.5 rounded-md border border-[#E4E4E7] bg-[#F4F4F5]">
+          <span className="text-[10px] text-[#71717A] font-medium">Free</span>
         </div>
-        <svg className="w-3.5 h-3.5 text-white/30 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+        <svg className="w-3.5 h-3.5 text-[#A1A1AA] flex-shrink-0" fill="none" viewBox="0 0 24 24">
           <path d="M7 10l5-5 5 5M7 14l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
 
       {/* Search */}
-      <div className="px-3 py-2 border-b border-white/[0.06]">
-        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.08]">
-          <svg className="w-3.5 h-3.5 text-white/30 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+      <div className="px-3 py-2 border-b border-[#EAEAEA]">
+        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#F4F4F5] border border-[#E4E4E7]">
+          <svg className="w-3.5 h-3.5 text-[#A1A1AA] flex-shrink-0" fill="none" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.8"/>
             <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
           </svg>
@@ -55,10 +55,10 @@ export function Sidebar() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Buscar..."
-            className="flex-1 bg-transparent text-[13px] text-white/60 placeholder-white/25 outline-none min-w-0"
+            className="flex-1 bg-transparent text-[13px] text-[#111] placeholder-[#A1A1AA] outline-none min-w-0"
           />
-          <div className="flex items-center justify-center w-5 h-5 rounded border border-white/10 bg-white/5 flex-shrink-0">
-            <span className="text-[10px] text-white/30 font-medium">F</span>
+          <div className="flex items-center justify-center w-5 h-5 rounded border border-[#E4E4E7] bg-white flex-shrink-0">
+            <span className="text-[10px] text-[#A1A1AA] font-medium">F</span>
           </div>
         </div>
       </div>
@@ -73,8 +73,8 @@ export function Sidebar() {
               <div className={cn(
                 'flex items-center gap-2.5 px-2.5 py-[7px] rounded-lg text-[13px] transition-colors duration-100',
                 active
-                  ? 'bg-white/10 text-white font-medium'
-                  : 'text-white/50 hover:bg-white/[0.06] hover:text-white/80'
+                  ? 'bg-[#F4F4F5] text-[#111] font-medium'
+                  : 'text-[#71717A] hover:bg-[#F4F4F5] hover:text-[#111]'
               )}>
                 <Icon active={active} />
                 <span>{item.label}</span>
@@ -83,7 +83,7 @@ export function Sidebar() {
           )
         })}
 
-        <div className="my-2 border-t border-white/[0.06]" />
+        <div className="my-2 border-t border-[#EAEAEA]" />
 
         {NAV_BOTTOM.map(item => {
           const active = pathname === item.href || pathname.startsWith(item.href + '/')
@@ -93,13 +93,13 @@ export function Sidebar() {
               <div className={cn(
                 'flex items-center gap-2.5 px-2.5 py-[7px] rounded-lg text-[13px] transition-colors duration-100',
                 active
-                  ? 'bg-white/10 text-white font-medium'
-                  : 'text-white/50 hover:bg-white/[0.06] hover:text-white/80'
+                  ? 'bg-[#F4F4F5] text-[#111] font-medium'
+                  : 'text-[#71717A] hover:bg-[#F4F4F5] hover:text-[#111]'
               )}>
                 <Icon active={active} />
                 <span className="flex-1">{item.label}</span>
                 {(item as any).arrow && (
-                  <svg className="w-3 h-3 text-white/20 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+                  <svg className="w-3 h-3 text-[#D4D4D8] flex-shrink-0" fill="none" viewBox="0 0 24 24">
                     <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 )}
@@ -110,22 +110,22 @@ export function Sidebar() {
       </nav>
 
       {/* Bottom team */}
-      <div className="p-3 border-t border-white/[0.06]">
+      <div className="p-3 border-t border-[#EAEAEA]">
         <button
           onClick={() => signOut({ redirectUrl: '/login' })}
-          className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-white/[0.06] transition-colors group"
+          className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-[#F4F4F5] transition-colors group"
         >
           <div className="w-5 h-5 rounded-full bg-[#13967e] flex items-center justify-center flex-shrink-0 overflow-hidden relative">
             {user?.imageUrl
               ? <img src={user.imageUrl} alt="" className="w-full h-full object-cover" />
               : <span className="text-[9px] font-bold text-white">{initials(user?.fullName)}</span>
             }
-            <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-blue-400 border border-[#0A0A0A]"/>
+            <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-blue-400 border-2 border-white"/>
           </div>
-          <span className="text-[13px] font-medium text-white/60 flex-1 text-left truncate group-hover:text-white/80 transition-colors">
+          <span className="text-[13px] font-medium text-[#71717A] flex-1 text-left truncate group-hover:text-[#111] transition-colors">
             Aiden Technologies
           </span>
-          <svg className="w-3.5 h-3.5 text-white/20 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 text-[#D4D4D8] flex-shrink-0" fill="none" viewBox="0 0 24 24">
             <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
@@ -135,7 +135,7 @@ export function Sidebar() {
 }
 
 interface IconProps { active?: boolean }
-const ic = (a?: boolean) => a ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.4)'
+const ic = (a?: boolean) => a ? '#111111' : '#A1A1AA'
 
 function IconHome({ active }: IconProps) {
   return <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={ic(active)} strokeWidth="1.7"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" strokeLinecap="round" strokeLinejoin="round"/></svg>
