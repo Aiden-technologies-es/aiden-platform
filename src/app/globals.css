@@ -8,92 +8,93 @@
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #111;
-  background: #F4F4F5;
+  background: #F0F2F5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Scrollbars ── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* ── Cards ── */
+/* Cards */
 .aiden-card {
   background: #FFFFFF;
-  border: 1px solid #E4E4E7;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  border: 1px solid #E8EAED;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
 }
 
-/* ── Inputs ── */
+/* Dark hero */
+.dark-hero {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Inputs */
 .aiden-input {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #E4E4E7;
-  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
   font-size: 14px;
   color: #111;
-  background: #FAFAFA;
+  background: #F8FAFC;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
   font-family: inherit;
 }
 .aiden-input:focus {
-  border-color: #111;
+  border-color: #6366F1;
   background: #FFF;
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
 }
-.aiden-input::placeholder { color: #A1A1AA; }
+.aiden-input::placeholder { color: #94A3B8; }
 
-/* ── Buttons ── */
+/* Buttons */
 .aiden-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   font-weight: 500;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   border: none;
   transition: all 0.12s ease;
   font-family: inherit;
   font-size: 13px;
   white-space: nowrap;
-  letter-spacing: -0.01em;
 }
 .aiden-btn:active:not(:disabled) { transform: scale(0.97); }
 .aiden-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Primary — black */
 .aiden-btn-primary {
   background: #111;
   color: #FFF;
   padding: 8px 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
-.aiden-btn-primary:hover:not(:disabled) { background: #000; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+.aiden-btn-primary:hover:not(:disabled) { background: #000; }
 
-/* Secondary */
 .aiden-btn-secondary {
   background: #FFF;
-  color: #111;
+  color: #374151;
   padding: 8px 16px;
-  border: 1px solid #E4E4E7;
+  border: 1px solid #E2E8F0;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
-.aiden-btn-secondary:hover:not(:disabled) { background: #FAFAFA; border-color: #D4D4D8; }
+.aiden-btn-secondary:hover:not(:disabled) { background: #F8FAFC; border-color: #CBD5E1; }
 
-/* Ghost */
 .aiden-btn-ghost {
   background: transparent;
-  border: 1px solid #E4E4E7;
-  color: #555;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
   padding: 8px 16px;
 }
-.aiden-btn-ghost:hover:not(:disabled) { background: #F4F4F5; }
+.aiden-btn-ghost:hover:not(:disabled) { background: #F8FAFC; }
 
-/* Danger */
 .aiden-btn-danger {
   background: #FFF;
   color: #DC2626;
@@ -102,10 +103,9 @@ body {
 }
 .aiden-btn-danger:hover:not(:disabled) { background: #FEF2F2; }
 
-/* Small */
-.aiden-btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
+.aiden-btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 8px; }
 
-/* ── Badge / Pill ── */
+/* Badge / Pill */
 .aiden-pill {
   display: inline-flex;
   align-items: center;
@@ -117,28 +117,17 @@ body {
   white-space: nowrap;
 }
 
-/* ── Skeleton ── */
+/* Skeleton */
 @keyframes shimmer {
-  0%   { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0%   { background-position: -1200px 0; }
+  100% { background-position: 1200px 0; }
 }
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    #F0F0F0 0%,
-    #F0F0F0 30%,
-    #E4E4E7 50%,
-    #F0F0F0 70%,
-    #F0F0F0 100%
-  );
-  background-size: 2000px 100%;
+  background: linear-gradient(90deg, #F1F5F9 0%, #F1F5F9 35%, #E2E8F0 50%, #F1F5F9 65%, #F1F5F9 100%);
+  background-size: 2400px 100%;
   animation: shimmer 2.5s linear infinite;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
-/* ── Animations — only fade, no movement ── */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .animate-fade-in { animation: fadeIn 0.2s ease; }
